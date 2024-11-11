@@ -59,7 +59,7 @@ fun SetBarColor(color:Color){
     }
 
 }}
-@Preview(uiMode = UI_MODE_NIGHT_MASK)
+@Preview(showSystemUi =true )
 @Composable
 fun HomeDashBoard() {
     Scaffold(modifier = Modifier.background(darkBlack)){ padding ->

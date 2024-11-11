@@ -27,7 +27,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 fun WorkFlowCardUi(){
 
     Column(Modifier
-        .height(250.dp)
+        .height(200.dp)
         .padding(16.dp)
         .fillMaxWidth()
         .clip(RoundedCornerShape(28.dp))
