@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,8 +15,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsEndWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -27,6 +34,7 @@ import androidx.compose.material.icons.outlined.Circle
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.MoreHoriz
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.RemoveRedEye
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -49,24 +57,75 @@ import com.saidinosystems.uixchalange.ui.theme.onPrimary
 import com.saidinosystems.uixchalange.ui.theme.secondary
 import  androidx.compose.runtime.getValue
 import  androidx.compose.runtime.setValue
+import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.ViewModel
+import com.saidinosystems.uixchalange.db.provider.model.Note
+import com.saidinosystems.uixchalange.db.provider.model.noteListMonk
 import com.saidinosystems.uixchalange.ui.theme.GrayMedium
+import com.saidinosystems.uixchalange.ui.theme.lightGray
 import com.saidinosystems.uixchalange.ui.theme.onSurface
 import com.saidinosystems.uixchalange.ui.theme.primary
-import kotlinx.coroutines.runBlocking
-import org.intellij.lang.annotations.JdkConstants
+import kotlin.random.Random
 
 
+@Composable
+fun NoteItem(height: Dp, note:Note){
+//    Box(modifier = c
 
-
-class NoteItemModel : ViewModel(){
-
-
+    Box(
+        modifier = Modifier
+            .height(height)
+            .clip(RoundedCornerShape(8.dp))
+//            .background(Brush.horizontalGradient(colors = listOf(secondary,primary), startX = 67.9f))
+            .background(GrayMedium).padding(8.dp)
+    ) {
+        Column() {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(note.title, color = primary, style = TextStyle(fontWeight = FontWeight.ExtraBold, fontSize = 18.sp))
+                Icon(Icons.Rounded.MoreHoriz, contentDescription = "", tint = primary)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Box(){
+                Text(note.description, color = lightGray,)
+            }
+        }
+    }
 
 }
 
+@Composable
+fun ListNote() {
+
+
+    var  grid_items = listOf(
+        NoteItem(height = 231.dp,noteListMonk),
+    )
+
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2), //2 columns
+        verticalItemSpacing = 16.dp,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp),
+    ) {
+        "populate griditems in this LazyVerticalStaggeredGrid"
+//        items(grid_items){item ->
+//            NoteItem(height = Random.nextInt(260,430).dp, noteListMonk[0])
+//        }
+
+//
+    }
+
+
+}
 @Composable
 fun NoteState( title: String,isDone: Boolean){
     var isFinalized by remember { mutableStateOf(isDone) }
@@ -88,17 +147,11 @@ fun NoteState( title: String,isDone: Boolean){
         Row (modifier = Modifier.fillMaxWidth().padding(start = 2.dp,end=8.dp), horizontalArrangement =Arrangement.Start, verticalAlignment = Alignment.CenterVertically){
             Box(
                 modifier = Modifier.clip(shape = CircleShape).background(color = if(isFinalized) primary else onSurface)
-
-
-
             ){
                 Icon( if (isFinalized) Icons.Filled.Done  else Icons.Filled.Circle,
                     tint = if ( isFinalized) Color.White else GrayMedium, contentDescription = "Add")
             }
-
-
         Spacer(modifier = Modifier.width(16.dp))
-
             Text("$title", fontSize = 12.sp, style = TextStyle(color=if (isFinalized) primary else onPrimary), textDecoration = if(isFinalized) TextDecoration.LineThrough else TextDecoration.None)
         }
 

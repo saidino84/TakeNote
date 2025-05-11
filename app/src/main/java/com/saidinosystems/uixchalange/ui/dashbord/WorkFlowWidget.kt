@@ -20,11 +20,12 @@ import com.saidinosystems.uixchalange.ui.theme.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.width
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.input.pointer.pointerInput
+    import androidx.compose.ui.input.pointer.pointerInput
 
 @Preview
 @Composable
-fun WorkFlowCardUi(){
+fun WorkFlowCardUi()
+        {
 
     Column(Modifier
         .height(200.dp)
